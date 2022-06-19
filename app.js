@@ -47,12 +47,16 @@ bot.start((ctx) => {
 
 
 bot.action('login', (ctx) => {
+    // TODO: check if user is registered or not
+
     User.where("uid").equals(ctx.callbackQuery.from.id)
         .then((user_result) => ctx.reply(`Your token is:\n${user_result.token}`))
         .catch((error) => ctx.reply(error));
 });
 
 bot.action('register', (ctx) => {
+    // TODO: check if user is not registered yet
+
     const userData = {
         uid: ctx.callbackQuery.from.id,
         token: "a-sample-token-to-generated"
@@ -66,6 +70,8 @@ bot.action('register', (ctx) => {
 });
 
 bot.action('info', (ctx) => {
+    // TODO: check user status
+
     const data = `
 Your information is listed here:
 *name*: ${ctx.callbackQuery.from.first_name}
