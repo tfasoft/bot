@@ -25,6 +25,7 @@
   "homepage": "https://github.com/BlackIQ/telegram-factor-authentication#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "mongoose": "^6.4.0",
     "telegraf": "^4.8.5"
   }
 }
