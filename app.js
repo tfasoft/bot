@@ -1,7 +1,19 @@
 const { Telegraf } = require('telegraf');
-require('dotenv').config();
+const mongoose = require('mongoose');
+const User = require('./modules/user');
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
+require('dotenv').config();
+const env = process.env;
+
+const bot = new Telegraf(env.BOT_TOKEN);
+const mdb = `mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MONGO_DATABASE}.ji4jf.mongodb.net/?retryWrites=true&w=majority`;
+
+mongoose.connect(mdb)
+    .then((connection) => {
+        console.log('Connected');
+        bot.launch();
+    })
+    .catch((error) => console.log(error));
 
 bot.start((ctx) => {
     const message = "I can help you with a modern way to authenticate with Telegram.\nYou can register, login or see your status by clicking the buttons.";
@@ -33,8 +45,15 @@ bot.start((ctx) => {
 });
 
 
-bot.action('login', (ctx) => ctx.reply("Login"));
-bot.action('register', (ctx) => ctx.reply("Register"));
+bot.action('login', (ctx) => {
+    User.findOne({uid})
+        .then()
+        .catch();
+});
+
+bot.action('register', (ctx) => {
+    ctx.reply("Register");
+});
 
 bot.action('info', (ctx) => {
     const data = `
@@ -46,5 +65,3 @@ Your information is listed here:
 
     ctx.replyWithMarkdown(data);
 });
-
-bot.launch();
