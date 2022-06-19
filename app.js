@@ -1,13 +1,14 @@
 const { Telegraf } = require('telegraf');
 const mongoose = require('mongoose');
+
 const User = require('./modules/user');
 
 require('dotenv').config();
 const env = process.env;
 
 const bot = new Telegraf(env.BOT_TOKEN);
-const mdb = `mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MONGO_DATABASE}.ji4jf.mongodb.net/?retryWrites=true&w=majority`;
 
+const mdb = `mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MONGO_DATABASE}.ji4jf.mongodb.net/?retryWrites=true&w=majority`;
 mongoose.connect(mdb)
     .then((connection) => {
         console.log('Connected');
@@ -46,13 +47,22 @@ bot.start((ctx) => {
 
 
 bot.action('login', (ctx) => {
-    User.findOne({uid})
-        .then()
-        .catch();
+    User.where("uid").equals(ctx.callbackQuery.from.id)
+        .then((user_result) => ctx.reply(`Your token is:\n${user_result.token}`))
+        .catch((error) => ctx.reply(error));
 });
 
 bot.action('register', (ctx) => {
-    ctx.reply("Register");
+    const userData = {
+        uid: ctx.callbackQuery.from.id,
+        token: "a-sample-token-to-generated"
+    };
+
+    const user = new User(userData);
+
+    user.save()
+        .then((result) => ctx.reply('You are now registered!'))
+        .catch((error) => ctx.reply(error));
 });
 
 bot.action('info', (ctx) => {
