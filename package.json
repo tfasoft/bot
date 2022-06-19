@@ -1,28 +1,29 @@
 {
-  "name": "telegram-factor-authentication",
+  "name": "telegram-factor-authentication-bot",
   "version": "1.0.0",
-  "description": "Authentication system with Telegram",
+  "description": "Telegram for authentication system with Telegram.",
   "main": "app.js",
   "scripts": {
     "test": "nodemon app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BlackIQ/telegram-factor-authentication.git"
+    "url": "git+https://github.com/BlackIQ/telegram-factor-authentication-bot.git"
   },
   "keywords": [
     "authentication",
     "bot",
     "telegram",
     "telegraf",
-    "js"
+    "js",
+    "api"
   ],
   "author": "Amirhossein Mohammadi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/BlackIQ/telegram-factor-authentication/issues"
+    "url": "https://github.com/BlackIQ/telegram-factor-authentication-bot/issues"
   },
-  "homepage": "https://github.com/BlackIQ/telegram-factor-authentication#readme",
+  "homepage": "https://github.com/BlackIQ/telegram-factor-authentication-bot#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
     "mongoose": "^6.4.0",
