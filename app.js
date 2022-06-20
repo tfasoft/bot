@@ -8,8 +8,7 @@ const env = process.env;
 
 const bot = new Telegraf(env.BOT_TOKEN);
 
-const mdb = `mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MONGO_DATABASE}.ji4jf.mongodb.net/?retryWrites=true&w=majority`;
-mongoose.connect(mdb)
+const mdb = `mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MONGO_DATABASE}.ji4jf.mongodb.net/${env.MONGO_COLLECTION}?retryWrites=true&w=majority`;mongoose.connect(mdb)
     .then((connection) => {
         console.log('Connected');
         bot.launch();
