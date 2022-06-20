@@ -46,15 +46,13 @@ bot.start((ctx) => {
 
 
 bot.action('login', (ctx) => {
-    // TODO: check if user is registered or not
-
-    User.where("uid").equals(ctx.callbackQuery.from.id)
-        .then((user_result) => ctx.reply(`Your token is:\n${user_result.token}`))
-        .catch((error) => ctx.reply(error));
+    User.findOne({uid: ctx.callbackQuery.from.id})
+        .orFail((fail) => ctx.reply('You are not registered.\nPress register button to register.'))
+        .then((user_result) => ctx.reply(`Your token is:\n${user_result.token}`));
 });
 
 bot.action('register', (ctx) => {
-    User.where('uid').equals(ctx.callbackQuery.from.id)
+    User.findOne({uid: ctx.callbackQuery.from.id})
         .orFail((result) => {
             const userData = {
                 uid: ctx.callbackQuery.from.id,
