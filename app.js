@@ -1,5 +1,6 @@
 const { Telegraf } = require('telegraf');
 const mongoose = require('mongoose');
+const randomstring = require('randomstring');
 
 const User = require('./modules/user');
 
@@ -46,9 +47,11 @@ bot.start((ctx) => {
 
 
 bot.action('login', (ctx) => {
-    User.findOne({uid: ctx.callbackQuery.from.id})
+    const newToken = randomstring.generate({length: 25, charset: 'alphabetic'});
+
+    User.findOneAndUpdate({uid: ctx.callbackQuery.from.id}, {token: newToken})
         .orFail((fail) => ctx.reply('You are not registered.\nPress register button to register.'))
-        .then((user_result) => ctx.reply(`Your token is:\n${user_result.token}`));
+        .then((result) => ctx.replyWithHTML(`Your token is:\n<code>${newToken}</code>`));
 });
 
 bot.action('register', (ctx) => {
@@ -69,14 +72,20 @@ bot.action('register', (ctx) => {
 });
 
 bot.action('info', (ctx) => {
-    // TODO: check user status
-
-    const data = `
+    let data = `
 Your information is listed here:
-*name*: ${ctx.callbackQuery.from.first_name}
-*uid*: ${ctx.callbackQuery.from.id}
-*registered*: ${false}
+- *name*: ${ctx.callbackQuery.from.first_name}
+- *uid*: ${ctx.callbackQuery.from.id}
+- *Registration status*: 
     `;
 
-    ctx.replyWithMarkdown(data);
+    User.findOne({uid: ctx.callbackQuery.from.id})
+        .orFail((fail) => {
+            data += 'You are not registed yet.';
+            ctx.replyWithMarkdown(data);
+        })
+        .then((result) => {
+            data += 'You are registered.';
+            ctx.replyWithMarkdown(data);
+        });
 });
