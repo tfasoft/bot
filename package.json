@@ -27,6 +27,7 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "mongoose": "^6.4.0",
+    "randomstring": "^1.2.2",
     "telegraf": "^4.8.5"
   }
 }
