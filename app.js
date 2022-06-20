@@ -51,7 +51,8 @@ bot.action('login', (ctx) => {
 
     User.findOneAndUpdate({uid: ctx.callbackQuery.from.id}, {token: newToken})
         .orFail((fail) => ctx.reply('You are not registered.\nPress register button to register.'))
-        .then((result) => ctx.replyWithHTML(`Your token is:\n<code>${newToken}</code>`));
+        .then((result) => ctx.replyWithHTML(`Your token is:\n<code>${newToken}</code>`))
+        .catch((error) => ctx.reply(error));
 });
 
 bot.action('register', (ctx) => {
@@ -68,7 +69,8 @@ bot.action('register', (ctx) => {
                 .then((result) => ctx.reply('You are now registered!'))
                 .catch((error) => ctx.reply(error));
         })
-        .then((fail) => ctx.reply('You are already registered!'));
+        .then((fail) => ctx.reply('You are already registered!'))
+        .catch((error) => ctx.reply(error));
 });
 
 bot.action('info', (ctx) => {
@@ -87,5 +89,6 @@ Your information is listed here:
         .then((result) => {
             data += 'You are registered.';
             ctx.replyWithMarkdown(data);
-        });
+        })
+        .catch((error) => ctx.reply(error));
 });
