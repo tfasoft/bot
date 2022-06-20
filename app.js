@@ -54,18 +54,20 @@ bot.action('login', (ctx) => {
 });
 
 bot.action('register', (ctx) => {
-    // TODO: check if user is not registered yet
-
-    const userData = {
-        uid: ctx.callbackQuery.from.id,
-        token: "a-sample-token-to-generated"
-    };
-
-    const user = new User(userData);
-
-    user.save()
-        .then((result) => ctx.reply('You are now registered!'))
-        .catch((error) => ctx.reply(error));
+    User.where('uid').equals(ctx.callbackQuery.from.id)
+        .orFail((result) => {
+            const userData = {
+                uid: ctx.callbackQuery.from.id,
+                token: "a-sample-token-to-generated"
+            };
+        
+            const user = new User(userData);
+        
+            user.save()
+                .then((result) => ctx.reply('You are now registered!'))
+                .catch((error) => ctx.reply(error));
+        })
+        .then((fail) => ctx.reply('You are already registered!'));
 });
 
 bot.action('info', (ctx) => {
