@@ -32,7 +32,7 @@ bot.start((ctx) => {
                         text: "My info",
                         callback_data: 'info'
                     },
-                ]
+                ],
             ]
         }
     };
@@ -100,6 +100,20 @@ bot.action('register', (ctx) => {
                     } else {
                         ctx.reply('You are already registered!');
                     }
+                })
+                .catch((error) => ctx.reply(error));
+        })
+        .catch((error) => ctx.reply('Sorry, server is busy. Press /start again.'));
+});
+
+bot.action('last', (ctx) => {
+    ctx.reply('Wait a bit . . .');
+    
+    mongoose.connect(mdb)
+        .then((connection) => {
+            User.findOneAndUpdate({uid: ctx.callbackQuery.from.id})
+                .then((result) => {
+                    ctx.replyWithHTML(`Your token is:\n<code>${result.token}</code>`);
                 })
                 .catch((error) => ctx.reply(error));
         })
