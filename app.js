@@ -63,7 +63,7 @@ bot.action('register', (ctx) => {
             if (result === null) {
                 const user = new User({
                     uid: ctx.callbackQuery.from.id,
-                    token: "a-sample-token-to-generated"
+                    token: randomstring.generate({length: 25, charset: 'alphabetic'})
                 });
             
                 user.save()
