@@ -37,8 +37,6 @@ bot.start((ctx) => {
         }
     };
 
-    ctx.reply('Wait a bit ...');
-
     mongoose.connect(mdb)
         .then((connection) => {
             User.findOne({uid: ctx.message.from.id})
@@ -62,8 +60,6 @@ bot.start((ctx) => {
 });
 
 bot.action('login', (ctx) => {
-    ctx.reply('Wait a bit . . .');
-    
     mongoose.connect(mdb)
         .then((connection) => {
             const newToken = randomstring.generate({length: 25, charset: 'alphabetic'});
@@ -82,8 +78,6 @@ bot.action('login', (ctx) => {
 });
 
 bot.action('register', (ctx) => {
-    ctx.reply('Wait a bit . . .');
-
     mongoose.connect(mdb)
         .then((connection) => {
             User.findOne({uid: ctx.callbackQuery.from.id})
@@ -107,8 +101,6 @@ bot.action('register', (ctx) => {
 });
 
 bot.action('last', (ctx) => {
-    ctx.reply('Wait a bit . . .');
-    
     mongoose.connect(mdb)
         .then((connection) => {
             User.findOneAndUpdate({uid: ctx.callbackQuery.from.id})
@@ -121,8 +113,6 @@ bot.action('last', (ctx) => {
 });
 
 bot.action('info', (ctx) => {
-    ctx.reply('Wait a bit . . .');
-    
     mongoose.connect(mdb)
         .then((connection) => {
             let data = `
