@@ -47,26 +47,32 @@ bot.action('login', (ctx) => {
     const newToken = randomstring.generate({length: 25, charset: 'alphabetic'});
 
     User.findOneAndUpdate({uid: ctx.callbackQuery.from.id}, {token: newToken})
-        .orFail((fail) => ctx.reply('You are not registered.\nPress register button to register.'))
-        .then((result) => ctx.replyWithHTML(`Your token is:\n<code>${newToken}</code>`))
+        .then((result) => {
+            if (result === null) {
+                ctx.reply('You are not registered.\nPress register button to register.');
+            } else {
+                ctx.replyWithHTML(`Your token is:\n<code>${newToken}</code>`);
+            }
+        })
         .catch((error) => ctx.reply(error));
 });
 
 bot.action('register', (ctx) => {
     User.findOne({uid: ctx.callbackQuery.from.id})
-        .orFail((result) => {
-            const userData = {
-                uid: ctx.callbackQuery.from.id,
-                token: "a-sample-token-to-generated"
-            };
-        
-            const user = new User(userData);
-        
-            user.save()
-                .then((result) => ctx.reply('You are now registered!'))
-                .catch((error) => ctx.reply(error));
+        .then((fail) => {
+            if (result === null) {
+                const user = new User({
+                    uid: ctx.callbackQuery.from.id,
+                    token: "a-sample-token-to-generated"
+                });
+            
+                user.save()
+                    .then((result) => ctx.reply('You are now registered!'))
+                    .catch((error) => ctx.reply(error));
+            } else {
+                ctx.reply('You are already registered!');
+            }
         })
-        .then((fail) => ctx.reply('You are already registered!'))
         .catch((error) => ctx.reply(error));
 });
 
@@ -79,13 +85,14 @@ Your information is listed here:
     `;
 
     User.findOne({uid: ctx.callbackQuery.from.id})
-        .orFail((fail) => {
-            data += 'You are not registed yet.';
-            ctx.replyWithMarkdown(data);
-        })
         .then((result) => {
-            data += 'You are registered.';
-            ctx.replyWithMarkdown(data);
+            if (result === null) {
+                data += 'You are not registed yet.';
+                ctx.replyWithMarkdown(data);
+            } else {
+                data += 'You are registered.';
+                ctx.replyWithMarkdown(data);
+            }
         })
         .catch((error) => ctx.reply(error));
 });
