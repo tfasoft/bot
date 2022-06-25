@@ -13,31 +13,52 @@ const mdb = `mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MON
 
 bot.start((ctx) => {
     const message = "I can help you with a modern way to authenticate with Telegram.\nYou can register, login or see your status by clicking the buttons.";
-    ctx.reply(
-        message,
-        {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            text: "Register",
-                            callback_data: 'register'
-                        },
-                        {
-                            text: "Login",
-                            callback_data: 'login'
-                        }
-                    ],
-                    [
-                        {
-                            text: "My info",
-                            callback_data: 'info'
-                        },
-                    ],
+    
+    const buttons = {
+        reply_markup: {
+            inline_keyboard: [
+                [
+                    {
+                        text: "Register",
+                        callback_data: 'register'
+                    },
+                    {
+                        text: "Login",
+                        callback_data: 'login'
+                    }
+                ],
+                [
+                    {
+                        text: "My info",
+                        callback_data: 'info'
+                    },
                 ]
-            }
+            ]
         }
-    )
+    };
+
+    ctx.reply('Wait a bit ...');
+
+    mongoose.connect(mdb)
+        .then((connection) => {
+            User.findOne({uid: ctx.message.from.id})
+                .then((result) => {
+                    if (result.token === null) {
+                        ctx.reply(message, buttons);
+                    } else {
+                        buttons.reply_markup.inline_keyboard.push([
+                            {
+                                text: "Get my last token",
+                                callback_data: 'last'
+                            },
+                        ])
+                        
+                        ctx.reply(message, buttons);
+                    }
+                })
+                .catch((error) => ctx.reply(error));
+        })
+        .catch((error) => ctx.reply('Sorry, server is busy. Press /start again.'));
 });
 
 bot.action('login', (ctx) => {
