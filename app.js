@@ -66,7 +66,7 @@ bot.action('login', (ctx) => {
         .then((connection) => {
             const newToken = randomstring.generate({length: 25, charset: 'alphabetic'});
 
-            User.findOneAndUpdate({uid: ctx.callbackQuery.from.id}, {token: newToken})
+            User.findOneAndUpdate({tid: ctx.callbackQuery.from.id}, {token: newToken})
                 .then((result) => {
                     if (result === null) {
                         ctx.reply('You are not registered.\nPress register button to register.');
@@ -82,11 +82,11 @@ bot.action('login', (ctx) => {
 bot.action('register', (ctx) => {
     mongoose.connect(mdb)
         .then((connection) => {
-            User.findOne({uid: ctx.callbackQuery.from.id})
+            User.findOne({tid: ctx.callbackQuery.from.id})
                 .then((result) => {
                     if (result === null) {
                         const user = new User({
-                            uid: ctx.callbackQuery.from.id,
+                            tid: ctx.callbackQuery.from.id,
                             token: randomstring.generate({length: 25, charset: 'alphabetic'})
                         });
                     
@@ -105,7 +105,7 @@ bot.action('register', (ctx) => {
 bot.action('last', (ctx) => {
     mongoose.connect(mdb)
         .then((connection) => {
-            User.findOneAndUpdate({uid: ctx.callbackQuery.from.id})
+            User.findOneAndUpdate({tid: ctx.callbackQuery.from.id})
                 .then((result) => {
                     ctx.replyWithHTML(`Your token is:\n<code>${result.token}</code>`);
                 })
@@ -120,11 +120,11 @@ bot.action('info', (ctx) => {
             let data = `
         Your information is listed here:
         - name: ${ctx.callbackQuery.from.first_name}
-        - uid: ${ctx.callbackQuery.from.id}
+        - tid: ${ctx.callbackQuery.from.id}
         - Registration status:
             `;
 
-            User.findOne({uid: ctx.callbackQuery.from.id})
+            User.findOne({tid: ctx.callbackQuery.from.id})
                 .then((result) => {
                     if (result === null) {
                         data += 'You are not registed yet.';
