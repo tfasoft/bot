@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userModule = new Schema({
-    uid: {
+    tid: {
         type: Number,
         required: true
     },
