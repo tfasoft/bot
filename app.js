@@ -120,7 +120,7 @@ bot.action('info', (ctx) => {
             let data = `
         Your information is listed here:
         - name: ${ctx.callbackQuery.from.first_name}
-        - tid: ${ctx.callbackQuery.from.id}
+        - tid: <code>${ctx.callbackQuery.from.id}</code>
         - Registration status:
             `;
 
@@ -128,10 +128,10 @@ bot.action('info', (ctx) => {
                 .then((result) => {
                     if (result === null) {
                         data += 'You are not registed yet.';
-                        ctx.reply(data);
+                        ctx.replyWithHTML(data);
                     } else {
                         data += 'You are registered.';
-                        ctx.reply(data);
+                        ctx.replyWithHTML(data);
                     }
                 })
                 .catch((error) => ctx.reply(error));
