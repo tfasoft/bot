@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const userModule = new Schema({
     tid: {
-        type: Number,
+        type: String,
         required: true
     },
     token: {
