@@ -37,7 +37,7 @@ bot.start((ctx) => {
 
 bot.action('login', (ctx) => {
     const data = {
-        tid: ctx.callbackQuery.from.id,
+        tid: `${ctx.callbackQuery.from.id}`,
     }
 
     axios.post(`${env.BACKEND_API}/bot/login`, data)
@@ -47,32 +47,25 @@ bot.action('login', (ctx) => {
             ctx.replyWithHTML(`Your token is:\n<code>${data.token}</code>`);
         })
         .catch((error) => {
-            console.log(error);
+            ctx.reply(error.response.data.message);
         });
 });
 
-// bot.action('register', (ctx) => {
-//     mongoose.connect(mdb)
-//         .then((connection) => {
-//             User.findOne({tid: ctx.callbackQuery.from.id})
-//                 .then((result) => {
-//                     if (result === null) {
-//                         const user = new User({
-//                             tid: ctx.callbackQuery.from.id,
-//                             token: randomstring.generate({length: 25, charset: 'alphabetic'})
-//                         });
-                    
-//                         user.save()
-//                             .then((result) => ctx.reply('You are now registered!'))
-//                             .catch((error) => ctx.reply(error));
-//                     } else {
-//                         ctx.reply('You are already registered!');
-//                     }
-//                 })
-//                 .catch((error) => ctx.reply(error));
-//         })
-//         .catch((error) => ctx.reply('Sorry, server is busy. Press /start again.'));
-// });
+bot.action('register', (ctx) => {
+    const data = {
+        tid: `${ctx.callbackQuery.from.id}`,
+    }
+
+    axios.post(`${env.BACKEND_API}/bot/register`, data)
+        .then((result) => {
+            const data = result.data;
+
+            ctx.reply(data.message);
+        })
+        .catch((error) => {
+            ctx.reply(error.response.data.message);
+        });
+});
 
 // bot.action('last', (ctx) => {
 //     mongoose.connect(mdb)
