@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/BlackIQ/telegram-factor-authentication-bot#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "telegraf": "^4.8.5"
   }
