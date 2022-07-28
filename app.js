@@ -1,5 +1,5 @@
 const { Telegraf } = require('telegraf');
-const axios = require('axios');
+const Axios = require('axios');
 
 require('dotenv').config();
 const env = process.env;
@@ -37,10 +37,10 @@ bot.start((ctx) => {
 
 bot.action('login', (ctx) => {
     const data = {
-        tid: `${ctx.callbackQuery.from.id}`,
+        tid: ctx.callbackQuery.from.id,
     }
 
-    axios.post(`${env.BACKEND_API}/bot/login`, data)
+    Axios.post(`${env.BACKEND_API}/bot/login`, data)
         .then((result) => {
             const data = result.data;
 
@@ -53,10 +53,10 @@ bot.action('login', (ctx) => {
 
 bot.action('register', (ctx) => {
     const data = {
-        tid: `${ctx.callbackQuery.from.id}`,
+        tid: ctx.callbackQuery.from.id,
     }
 
-    axios.post(`${env.BACKEND_API}/bot/register`, data)
+    Axios.post(`${env.BACKEND_API}/bot/register`, data)
         .then((result) => {
             const data = result.data;
 
@@ -79,29 +79,20 @@ bot.action('register', (ctx) => {
 //         .catch((error) => ctx.reply('Sorry, server is busy. Press /start again.'));
 // });
 
-// bot.action('info', (ctx) => {
-//     mongoose.connect(mdb)
-//         .then((connection) => {
-//             let data = `
-//         Your information is listed here:
-//         - name: ${ctx.callbackQuery.from.first_name}
-//         - tid: <code>${ctx.callbackQuery.from.id}</code>
-//         - Registration status:
-//             `;
+bot.action('info', (ctx) => {
+    const data = {
+        tid: ctx.callbackQuery.from.id,
+    }
 
-//             User.findOne({tid: ctx.callbackQuery.from.id})
-//                 .then((result) => {
-//                     if (result === null) {
-//                         data += 'You are not registed yet.';
-//                         ctx.replyWithHTML(data);
-//                     } else {
-//                         data += 'You are registered.';
-//                         ctx.replyWithHTML(data);
-//                     }
-//                 })
-//                 .catch((error) => ctx.reply(error));
-//         })
-//         .catch((error) => ctx.reply('Sorry, server is busy. Press /start again.'));
-// });
+    Axios.post(`${env.BACKEND_API}/bot/info`, data)
+        .then((result) => {
+            const data = result.data;
+
+            ctx.reply(data.data);
+        })
+        .catch((error) => {
+            ctx.reply(error.response.data.message);
+        });
+});
 
 bot.launch();
