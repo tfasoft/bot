@@ -1,5 +1,5 @@
 const { Telegraf } = require('telegraf');
-const Axios = require('axios');
+const axios = require('axios');
 
 require('dotenv').config();
 const env = process.env;
@@ -40,14 +40,18 @@ bot.action('login', (ctx) => {
         tid: ctx.callbackQuery.from.id,
     }
 
-    Axios.post(`${env.BACKEND_API}/bot/login`, data)
+    axios.post(`${env.BACKEND_API}/bot/login`, data)
         .then((result) => {
             const data = result.data;
 
-            ctx.replyWithHTML(`Your token is:\n<code>${data.token}</code>`);
+            if (data.code === 2) {
+                ctx.replyWithHTML(`Your token is:\n<code>${data.token}</code>`);
+            } else {
+                ctx.replyWithHTML(data.message);
+            }
         })
         .catch((error) => {
-            ctx.reply(error.response.data.message);
+            ctx.reply('Sorry, server is busy. Try again please.');
         });
 });
 
@@ -56,7 +60,7 @@ bot.action('register', (ctx) => {
         tid: ctx.callbackQuery.from.id,
     }
 
-    Axios.post(`${env.BACKEND_API}/bot/register`, data)
+    axios.post(`${env.BACKEND_API}/bot/register`, data)
         .then((result) => {
             const data = result.data;
 
@@ -84,7 +88,7 @@ bot.action('info', (ctx) => {
         tid: ctx.callbackQuery.from.id,
     }
 
-    Axios.post(`${env.BACKEND_API}/bot/info`, data)
+    axios.post(`${env.BACKEND_API}/bot/info`, data)
         .then((result) => {
             const data = result.data;
 
