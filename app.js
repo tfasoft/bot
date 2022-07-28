@@ -67,7 +67,7 @@ bot.action('register', (ctx) => {
             ctx.reply(data.message);
         })
         .catch((error) => {
-            ctx.reply(error.response.data.message);
+            ctx.reply('Sorry, server is busy. Try again please.');
         });
 });
 
@@ -85,6 +85,7 @@ bot.action('register', (ctx) => {
 
 bot.action('info', (ctx) => {
     const data = {
+        name: ctx.callbackQuery.from.first_name,
         tid: ctx.callbackQuery.from.id,
     }
 
@@ -92,10 +93,10 @@ bot.action('info', (ctx) => {
         .then((result) => {
             const data = result.data;
 
-            ctx.reply(data.data);
+            ctx.replyWithHTML(data.data);
         })
         .catch((error) => {
-            ctx.reply(error.response.data.message);
+            ctx.reply('Sorry, server is busy. Try again please.');
         });
 });
 
