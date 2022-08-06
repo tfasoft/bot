@@ -24,6 +24,12 @@ bot.start((ctx) => {
                 ],
                 [
                     {
+                        text: "Connect to mobile",
+                        callback_data: 'connect'
+                    },
+                ],
+                [
+                    {
                         text: "My info",
                         callback_data: 'info'
                     },
@@ -67,7 +73,24 @@ bot.action('register', (ctx) => {
             ctx.reply(data.message);
         })
         .catch((error) => {
-            ctx.reply("Sorry, an error!");
+            ctx.reply('Sorry, server is busy. Try again please.');
+        });
+});
+
+bot.action('connect', (ctx) => {
+    const data = {
+        tid: ctx.callbackQuery.from.id,
+    }
+
+    axios.post(`${env.BACKEND_API}/api/user/mobile/connect`, data)
+        .then((result) => {
+            const data = result.data;
+            
+            ctx.reply("You mobile code (mcode) will be send few seconds later. Do not share it with anyone else.")
+            ctx.replyWithHTML(`<code>${data.mcode}</code>`);
+        })
+        .catch((error) => {
+            ctx.reply('Sorry, server is busy. Try again please.');
         });
 });
 
