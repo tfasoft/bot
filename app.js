@@ -67,7 +67,7 @@ bot.action('register', (ctx) => {
             ctx.reply(data.message);
         })
         .catch((error) => {
-            ctx.reply('Sorry, server is busy. Try again please.');
+            ctx.reply("Sorry, an error!");
         });
 });
 
