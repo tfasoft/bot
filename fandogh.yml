@@ -1,9 +1,0 @@
-kind: ExternalService
-name: tfa-soft-bot
-spec:
-  image_pull_policy: Always
-  port: 80
-  source:
-    context: .
-    node_version: '16'
-    project_type: nodejs
