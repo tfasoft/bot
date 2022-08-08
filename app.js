@@ -82,7 +82,7 @@ bot.action('connect', (ctx) => {
         tid: ctx.callbackQuery.from.id,
     }
 
-    axios.post(`${env.BACKEND_API}/api/user/mobile/connect`, data)
+    axios.post(`${env.BACKEND_API}/api/user/connect`, data)
         .then((result) => {
             const data = result.data;
             
