@@ -46,7 +46,7 @@ bot.action('login', (ctx) => {
         tid: ctx.callbackQuery.from.id,
     }
 
-    axios.post(`${env.BACKEND_API}/api/user/login`, data)
+    axios.post(`${env.BACKEND_API}/user/login`, data)
         .then((result) => {
             const data = result.data;
 
@@ -66,7 +66,7 @@ bot.action('register', (ctx) => {
         tid: ctx.callbackQuery.from.id,
     }
 
-    axios.post(`${env.BACKEND_API}/api/user/register`, data)
+    axios.post(`${env.BACKEND_API}/user/register`, data)
         .then((result) => {
             const data = result.data;
 
@@ -82,7 +82,7 @@ bot.action('connect', (ctx) => {
         tid: ctx.callbackQuery.from.id,
     }
 
-    axios.post(`${env.BACKEND_API}/api/user/connect`, data)
+    axios.post(`${env.BACKEND_API}/user/connect`, data)
         .then((result) => {
             const data = result.data;
             
@@ -112,7 +112,7 @@ bot.action('info', (ctx) => {
         tid: ctx.callbackQuery.from.id,
     }
 
-    axios.post(`${env.BACKEND_API}/api/user/info`, data)
+    axios.post(`${env.BACKEND_API}/user/info`, data)
         .then((result) => {
             const data = result.data;
 
