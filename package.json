@@ -3,9 +3,21 @@
   "version": "2.7.4",
   "description": "Telegram bot for authentication system with Telegram.",
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "test": "nodemon app.js"
+    "test": "link-module-alias && nodemon server.js",
+    "build": "node_modules/babel-cli/bin/babel.js ./ --source-maps --out-dir dist",
+    "start": "link-module-alias && nodemon server.js",
+    "populate": "node_modules/babel-cli/bin/babel-node.js populate.js",
+    "postinstall": "link-module-alias"
+  },
+  "devDependencies": {
+    "link-module-alias": "^1.2.0",
+    "nodemon": "^2.0.19",
+    "prettier": "2.7.1"
+  },
+  "_moduleAliases": {
+    "$bot": "./bot"
   },
   "repository": {
     "type": "git",
@@ -28,6 +40,9 @@
   "dependencies": {
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
+    "ioredis": "^5.3.1",
+    "rayid": "^2.1.2",
+    "socks-proxy-agent": "^7.0.0",
     "telegraf": "^4.8.5"
   }
 }
