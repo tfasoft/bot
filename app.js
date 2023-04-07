@@ -1,3 +1,7 @@
-const bot = require("./bot/app");
+import { Redis } from "$bot/connections/index.js";
+import bot from "$bot";
 
-bot.launch();
+Redis.on("connect", () => {
+  console.log("Redis connected.");
+  bot.launch();
+});
