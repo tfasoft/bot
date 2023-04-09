@@ -1,6 +1,6 @@
 {
   "name": "telegram-factor-authentication-bot",
-  "version": "2.7.4",
+  "version": "3.7.4",
   "description": "Telegram bot for authentication system with Telegram.",
   "main": "app.js",
   "type": "module",
