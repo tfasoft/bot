@@ -1,3 +1,3 @@
-# Telegram Factor Authentication - Bot
+# TFASoft Bot
 
-Telegram Factor Authentication client.
+Telegram Factor Authentication Telegram bot client.
