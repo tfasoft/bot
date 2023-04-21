@@ -8,9 +8,16 @@ export const LOGIN = async (ctx) => {
   try {
     const result = await API.post("auth/login", data);
 
-    await ctx.replyWithHTML(
-      `Your token is:\n<code>${result.data.token}</code>`
-    );
+    const messages = [
+      "Your token is:",
+      `<code>${result.data.token}</code>`,
+      "\nYou can tap on the token to copy in clipboard.",
+      "Token is alive for 1 minute.\n",
+      "---------------",
+      "Do not share this token with anyone.",
+    ];
+
+    await ctx.replyWithHTML(messages.join("\n"));
   } catch (error) {
     await ctx.reply(error.response.data.message);
   }
