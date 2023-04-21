@@ -1,35 +1,49 @@
-export const START = async (ctx) => {
-  const message =
-    "I can help you with a modern way to authenticate with Telegram.\nYou can register, login or see your status by clicking the buttons.";
+import { API } from "$bot/api/index.js";
 
-  const buttons = {
+export const START = async (ctx) => {
+  const { id } = ctx.message.from;
+
+  const buttons = [];
+
+  try {
+    const { data } = await API.get(`users/${id}`);
+
+    buttons.push([
+      {
+        text: "Get access token",
+        callback_data: "login",
+      },
+    ]);
+    buttons.push([
+      {
+        text: "My info",
+        callback_data: "info",
+      },
+    ]);
+
+    console.log(data);
+  } catch (error) {
+    buttons.push([
+      {
+        text: "Register",
+        callback_data: "register",
+      },
+    ]);
+  }
+
+  const messages = [
+    "I can help you with a modern way to authenticate with Telegram.",
+    "You can register, login or see your status by clicking the buttons.",
+    "\nFor more information, head over to https://tfasoft.com.",
+  ];
+
+  const message = messages.join("\n");
+
+  const buttonsMarkup = {
     reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            text: "Register",
-            callback_data: "register",
-          },
-          {
-            text: "Login",
-            callback_data: "login",
-          },
-        ],
-        [
-          {
-            text: "Connect to mobile",
-            callback_data: "connect",
-          },
-        ],
-        [
-          {
-            text: "My info",
-            callback_data: "info",
-          },
-        ],
-      ],
+      inline_keyboard: buttons,
     },
   };
 
-  await ctx.reply(message, buttons);
+  await ctx.reply(message, buttonsMarkup);
 };
