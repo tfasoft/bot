@@ -6,11 +6,7 @@ export const INFO = async (ctx) => {
   try {
     const { data } = await API.get(`users/${id}`);
 
-    const iData = `
-    Your information is listed here:
-    - name: ${data.name}
-    - tid: <code>${data.tid}</code>
-        `;
+    const iData = `Your Telegram ID is: <code>${data.tid}</code>`;
 
     await ctx.replyWithHTML(iData);
   } catch (error) {
