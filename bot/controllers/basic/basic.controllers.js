@@ -19,6 +19,10 @@ export const START = async (ctx) => {
         text: "My info",
         callback_data: "info",
       },
+      {
+        text: "My Logins",
+        callback_data: "logs",
+      },
     ]);
 
     console.log(data);

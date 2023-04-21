@@ -15,7 +15,7 @@ bot.start((ctx) => Basic.START(ctx));
 bot.action("login", (ctx) => Auth.LOGIN(ctx));
 bot.action("register", (ctx) => Auth.REGISTER(ctx));
 
-bot.action("connect", (ctx) => User.CONNECT(ctx));
+bot.action("logs", (ctx) => User.My_LOGS(ctx));
 bot.action("info", (ctx) => User.INFO(ctx));
 
 export default bot;
