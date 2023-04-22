@@ -20,7 +20,7 @@ export const START = async (ctx) => {
         callback_data: "info",
       },
       {
-        text: "My Logins",
+        text: "My logins",
         callback_data: "logs",
       },
     ]);
