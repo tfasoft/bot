@@ -20,7 +20,7 @@ export const My_LOGS = async (ctx) => {
   try {
     const { data } = await API.get(`users/logs/${id}`);
 
-    const logins = ["Her eare your logins\n"];
+    const logins = ["Here are your logins.\n"];
 
     await Promise.all(
       data.map(async (login) => {

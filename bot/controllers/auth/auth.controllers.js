@@ -14,7 +14,7 @@ export const LOGIN = async (ctx) => {
       "\nYou can tap on the token to copy in clipboard.",
       "Token is alive for 1 minute.\n",
       "---------------",
-      "Do not share this token with anyone.",
+      "🚫 Do not share this token with anyone.",
     ];
 
     await ctx.replyWithHTML(messages.join("\n"));
