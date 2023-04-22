@@ -24,8 +24,6 @@ export const START = async (ctx) => {
         callback_data: "logs",
       },
     ]);
-
-    console.log(data);
   } catch (error) {
     buttons.push([
       {
