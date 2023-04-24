@@ -20,21 +20,25 @@ export const My_LOGS = async (ctx) => {
   try {
     const { data } = await API.get(`users/logs/${id}`);
 
-    const logins = ["Here are your logins.\n"];
+    if (data.length === 0) {
+      await ctx.reply("You have no logins.");
+    } else {
+      const logins = ["Here are your logins.\n"];
 
-    await Promise.all(
-      data.map(async (login) => {
-        const td = new Date(login.createdAt);
+      await Promise.all(
+        data.map(async (login) => {
+          const td = new Date(login.createdAt);
 
-        const translatedDate = `${td.getFullYear()}/${td.getMonth()}/${td.getDay()} ${td.getHours()}:${td.getMinutes()}`;
+          const translatedDate = `${td.getFullYear()}/${td.getMonth()}/${td.getDay()} ${td.getHours()}:${td.getMinutes()}`;
 
-        const log = `Login to ${login.service.name}. Provided by ${login.company.companyName} at ${translatedDate}.`;
+          const log = `Login to ${login.service.name}. Provided by ${login.company.companyName} at ${translatedDate}.`;
 
-        logins.push(log);
-      })
-    );
+          logins.push(log);
+        })
+      );
 
-    await ctx.reply(logins.join("\n"));
+      await ctx.reply(logins.join("\n"));
+    }
   } catch (error) {
     await ctx.reply(error.response.data.message);
   }
